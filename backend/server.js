@@ -6,8 +6,6 @@ import connectCloudinary from './config/cloudinary.js';
 import adminRouter from './routes/adminRoute.js';
 import mentorRouter from './routes/mentorRoute.js';
 import userRouter from './routes/userRoute.js';
-// import express from 'express';
-// import userRoutes from './routes/userRoutes.js';
 
 
 // app config
@@ -23,6 +21,7 @@ connectCloudinary()
 // middlewares
 app.use(express.json());
 app.use(cors());
+app.use(express.urlencoded({ extended: true }))
 
 // api endpoints
 app.use('/api/admin', adminRouter)

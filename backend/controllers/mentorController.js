@@ -181,9 +181,10 @@ const mentorProfile = async (req, res) => {
 const updateMentorProfile = async (req, res) => {
   try {
 
-    const { mentorId, fees, available } = req.body
+    const mentorId = req.mentorId
+    const { about, fees, available } = req.body
 
-    await mentorModel.findByIdAndUpdate(mentorId, {fees, available})
+    await mentorModel.findByIdAndUpdate(mentorId, {about, fees, available})
 
     res.json({success: true, message: 'Profile Updated'})
     

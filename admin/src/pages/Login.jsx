@@ -4,6 +4,7 @@ import { AdminContext } from '../context/AdminContext'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { MentorContext } from '../context/MentorContext'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
 
@@ -14,6 +15,7 @@ const Login = () => {
 
   const { setAToken, backendUrl } = useContext(AdminContext)
   const { setMToken } = useContext(MentorContext)
+  const navigate = useNavigate()
 
   const onSubmitHandler = async(event) => {
 
@@ -25,6 +27,7 @@ const Login = () => {
         if(data.success) {
           localStorage.setItem('aToken', data.token)
           setAToken(data.token)
+          navigate('/admin-dashboard')
         } else {
           toast.error(data.message)
         }
@@ -34,6 +37,7 @@ const Login = () => {
         if (data.success) {
           localStorage.setItem('mToken', data.token)
           setMToken(data.token)
+          navigate('/mentor-dashboard')
           console.log(data.token)
         } else {
           toast.error(data.message)
