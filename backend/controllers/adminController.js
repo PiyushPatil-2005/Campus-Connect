@@ -3,6 +3,8 @@ import bycrypt from 'bcrypt'
 import {v2 as cloudinary } from 'cloudinary'
 import mentorModel from '../models/mentorModel.js'
 import jwt from 'jsonwebtoken'
+import userModel from '../models/userModel.js'
+import appointmentModel from '../models/appointmentModel.js'
 
 
 // API for adding mentor
@@ -94,4 +96,87 @@ const loginAdmin = async (req, res) =>  {
     }
 }
 
-export { addMentor, loginAdmin }
+// API to get all doctors list for admin panel
+
+const allMentors = async (req, res) => {
+    try {
+        const mentors = await mentorModel.find({}).select('-password')
+        res.json({ success: true, mentors })
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
+
+// API to get all appointments list
+const appointmentsAdmin = async (req, res) => {
+
+    try {
+
+        const appointments = await appointmentModel.find({})
+        res.json({success: true, appointments})
+
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
+
+// API for appointment cancellation
+
+const appointmentCancel = async (req, res) => {
+
+    try {
+
+        const { appointmentId } = req.body
+
+        const appointmentData = await appointmentModel.findById(appointmentId)
+
+        await appointmentModel.findByIdAndUpdate(appointmentId, { cancelled: true })
+
+        // releasing mentor slot
+
+        const { mentorId, slotDate, slotTime } = appointmentData
+
+        const mentorData = await mentorModel.findById(mentorId)
+
+        let slots_booked = mentorData.slots_booked
+
+        slots_booked[slotDate] = slots_booked[slotDate].filter(e => e !== slotTime)
+
+        await mentorModel.findByIdAndUpdate(mentorId, { slots_booked })
+
+        res.json({ success: true, message: 'Appointment Cancelled' })
+
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
+
+// API to get dashboard data fro admin panel
+
+const adminDashboard = async (req, res) => {
+
+    try {
+
+        const mentors = await mentorModel.find({})
+        const users = await userModel.find({})
+        const appointments = await appointmentModel.find({})
+
+        const dashData = {
+            mentors: mentors.length,
+            appointments: appointments.length,
+            users: users.length,
+            latestAppointments: appointments.reverse().slice(0, 5)
+        }
+
+        res.json({success: true, dashData})
+ 
+    } catch (error) {
+        console.log(error)
+        res.json({success: false, message: error.message})
+    }
+}
+
+export { addMentor, loginAdmin, allMentors,appointmentsAdmin, appointmentCancel, adminDashboard }

@@ -12,6 +12,6 @@ const userSchema = mongoose.Schema({
 
 }, {minimize: false })
 
-const userModel = mongoose.models.user || mongoose.model('mentors', userSchema)
+const userModel = mongoose.models.user || mongoose.model('user', userSchema)
 
 export default userModel

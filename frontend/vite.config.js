@@ -7,4 +7,5 @@ export default defineConfig({
     react(),
     tailwindcss(), // Enable Tailwind in Vite
   ],
+  server:{port:5173}
 });
