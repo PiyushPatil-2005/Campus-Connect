@@ -152,7 +152,7 @@ const Appointment = () => {
             <p className='text-sm text-gray-500 max-w -[700px] mt-1'>{mentorInfo.about}</p>
           </div>
           <p className='text-gray-500 font-medium mt-4'>
-            Counselling Fee: <span className='text-gray-600'>{currencySymbol}{mentorInfo.fees}</span>
+            Counselling Fee: <span className='text-gray-600'>{currencySymbol} {mentorInfo.fees}</span>
           </p>
 
         </div>

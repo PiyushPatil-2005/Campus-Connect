@@ -42,7 +42,7 @@ const AllApointments = () => {
             <div className='flex items-center gap-2'>
               <img className='w-8 rounded-full bg-gray-200' src={item.menData.image} alt="" /><p>{item.menData.name}</p>
             </div>
-            <p>{currency}{item.amount}</p>
+            <p>{currency} {item.amount}</p>
             {
               item.cancelled
                 ? <p className='text-red-400 text-xs font-medium'>Cancelled</p>
