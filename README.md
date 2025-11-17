@@ -1,4 +1,3 @@
-HEAD
 # Campus Connect - Students Mentorship Platform
 
 # Campus-Connect
